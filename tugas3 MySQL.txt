@@ -1,34 +1,26 @@
--- Buat database
-CREATE DATABASE booking_lapangan;
-USE booking_lapangan;
-
--- Buat tabel lapangan
 CREATE TABLE lapangan (
     id_lapangan INT AUTO_INCREMENT PRIMARY KEY,
     nama_lapangan VARCHAR(100) NOT NULL,
-    jenis_olahraga VARCHAR(50) NOT NULL,
+    lokasi VARCHAR(255),
     harga_per_jam DECIMAL(10, 2) NOT NULL
 );
 
--- Buat tabel booking (untuk jadwal)
-CREATE TABLE booking (
+CREATE TABLE bookings (
     id_booking INT AUTO_INCREMENT PRIMARY KEY,
     id_lapangan INT NOT NULL,
     nama_pemesan VARCHAR(100) NOT NULL,
     tanggal_booking DATE NOT NULL,
     jam_mulai TIME NOT NULL,
     jam_selesai TIME NOT NULL,
-    status_pembayaran ENUM('Lunas', 'Belum Lunas') NOT NULL DEFAULT 'Belum Lunas',
+    status_pembayaran VARCHAR(50) NOT NULL, -- Contoh: 'pending', 'lunas', 'batal'
     FOREIGN KEY (id_lapangan) REFERENCES lapangan(id_lapangan)
 );
 
--- Masukkan beberapa data sampel ke tabel lapangan
-INSERT INTO lapangan (nama_lapangan, jenis_olahraga, harga_per_jam) VALUES
-('Lapangan A', 'Futsal', 100000.00),
-('Lapangan B', 'Badminton', 75000.00);
+INSERT INTO lapangan (nama_lapangan, lokasi, harga_per_jam) VALUES
+('Lapangan A', 'Jl. Merdeka No. 1', 150000.00),
+('Lapangan B', 'Jl. Sudirman No. 2', 200000.00);
 
--- Masukkan beberapa data sampel ke tabel booking
-INSERT INTO booking (id_lapangan, nama_pemesan, tanggal_booking, jam_mulai, jam_selesai, status_pembayaran) VALUES
-(1, 'Andi', '2025-11-20', '09:00:00', '10:00:00', 'Lunas'),
-(1, 'Budi', '2025-11-20', '10:00:00', '11:00:00', 'Belum Lunas'),
-(2, 'Citra', '2025-11-21', '14:00:00', '15:00:00', 'Lunas');
+INSERT INTO bookings (id_lapangan, nama_pemesan, tanggal_booking, jam_mulai, jam_selesai, status_pembayaran) VALUES
+(1, 'Rudi', '2025-01-10', '10:00:00', '11:00:00', 'lunas'),
+(2, 'Ani', '2025-01-11', '14:00:00', '15:00:00', 'pending'),
+(1, 'Bambang', '2025-01-11', '16:00:00', '17:00:00', 'batal');
